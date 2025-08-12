@@ -1,0 +1,11 @@
+E:\Project Dotnet Angular\ecommerceApi\Domain\bin\Debug\net9.0\Domain.deps.json
+E:\Project Dotnet Angular\ecommerceApi\Domain\bin\Debug\net9.0\Domain.dll
+E:\Project Dotnet Angular\ecommerceApi\Domain\bin\Debug\net9.0\Domain.pdb
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\Domain.AssemblyInfoInputs.cache
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\Domain.AssemblyInfo.cs
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\Domain.csproj.CoreCompileInputs.cache
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\Domain.dll
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\refint\Domain.dll
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\Domain.pdb
+E:\Project Dotnet Angular\ecommerceApi\Domain\obj\Debug\net9.0\ref\Domain.dll
