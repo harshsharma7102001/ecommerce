@@ -1,1 +1,10 @@
-.vs
+.vs/
+Core/obj/
+Domain/bin/
+Domain/obj/
+Data/bin/
+Data/obj/
+Api/obj/
+Api/bin/
+Infrastructure/obj/
+Infrastructure/bin/

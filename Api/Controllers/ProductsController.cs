@@ -1,77 +1,85 @@
 ﻿using Domain.Entities;
-using Infrastructure.Data.StoreContext;
+using Domain.Interface.IProductInterface;
+using Infrastructure.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace Api.Controllers.ProductsControllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController : ControllerBase
+public class ProductsController(IProductInterface _productInterface) : ControllerBase
 {
-    public readonly StoreContext _context;
-    public ProductsController(StoreContext context)
-    {
-        this._context = context;
-    }
+    
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct() {
-        return  await _context.Products.ToListAsync();
+    public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct(string ?brand,string ?type,string ?sort) {
+        return  Ok(await _productInterface.GetProducts(brand,type,sort));
     }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Product>> GetProductById(int id)
     {
-        return await _context.Products.FindAsync(id);
+        var result = await _productInterface.GetProductById(id);
+        if (result == null)
+        {
+            return BadRequest();
+        }
+        return Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Product>> AddNewProduct(Product product)
+    public async Task<ActionResult<bool>> AddNewProduct(Product product)
     {
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
-        return Ok();
+        var result =await _productInterface.AddProduct(product);
+        if (result==null)
+        {
+            return BadRequest("Something went wrong");
+        }
+        return Ok("Product added successfully");
     }
 
     [HttpDelete("{id:Int}")]
     public async Task<IActionResult> DeleteProduct(int id)
     {
-        Product p = await _context.Products.FirstOrDefaultAsync(x=>x.Id==id);
-        if(p==null)
+        var result = await _productInterface.DeleteProduct(id);
+        if (result == false)
         {
-            return  NotFound();
+            return NotFound("Product not found");
         }
-        _context.Products.Remove(p);
-        await _context.SaveChangesAsync();
-        return Ok("Successfully Deleted");
+        return Ok("Record Deletd Successfully");
     }
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdatePoduct(int id,Product product)
+    public async Task<ActionResult<bool>> UpdatePoduct(int id,Product product)
     {
-        try
+       var result = await _productInterface.UpdateProducts(id, product);
+        if (result == false)
         {
-            if (!checkIfExits(id))
-            {
-                return NotFound("Product not found");
-            }
-             if (id != product.Id)
-            {
-                return BadRequest("Product ID mismatch");
-            }
-             _context.Entry(product).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok("Successfully Updated");
-
+            return NotFound("Product not found");
         }
-        catch(Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        return Ok("Product updated successfully");
     }
 
-    public bool checkIfExits(int id)
+    [HttpGet("brands")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetBrands()
     {
-        return _context.Products.Any(x=>x.Id ==id);
+        var result =  await _productInterface.GetProductBrands();
+        if (result == null)
+        {
+            return BadRequest("Something went wrong");
+        }
+        return Ok(result);
     }
+
+    [HttpGet("types")]
+    public async Task<ActionResult<IReadOnlyList<string>>> GetTypes()
+    {
+        var result = await _productInterface.GetProductTypes();
+        if (result == null)
+        {
+            return BadRequest("Something went wrong");
+        }
+        return Ok(result);
+    }
+
 
 }
